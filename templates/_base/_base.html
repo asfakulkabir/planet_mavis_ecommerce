@@ -10,16 +10,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Planet Mavis{% endblock %}</title>
   {% block extra_head %}{% endblock %}
-
   <script src="{% static 'js/tailwind.js' %}" ></script>    
   <script src="{% static 'js/alpine.min.js' %}"></script>  
   <script src="{% static 'js/main.js' %}"></script>  
 
-
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          clifford: '#da373d',
+        }
+      }
+    }
+  }
+</script>
   <style type="text/tailwindcss">
       @theme {
         --color-clifford: #da373d;
       }
+    .transition-colors {
+      transition: background-color 0.3s, color 0.3s;
+    }
   </style>  
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   {% compress css %}
@@ -28,7 +41,7 @@
 
 </head>
 
-<body class="bg-[#fffff9]">
+<body class="bg-[#fbfffe] dark:bg-slate-900 transition-colors duration-500">
 
 {% include '_base/navbar.html' %}
 {% include '_base/_cart.html' %}
@@ -215,6 +228,53 @@
         }, 3000);
     }
 });
+</script>
+
+
+<!-- dark class  -->
+<script>
+  const html = document.documentElement;
+  const desktopToggle = document.getElementById('desktopToggle');
+  const mobileToggle = document.getElementById('mobileToggle');
+
+  // Function to apply the user's theme preference
+  function applyThemePreference() {
+    const userPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedTheme === 'dark' || (!savedTheme && userPrefersDark)) {
+      html.classList.add('dark');
+    } else {
+      html.classList.remove('dark');
+    }
+  }
+
+  // Initial theme setup on page load
+  applyThemePreference();
+
+  // Event listener for the desktop switcher
+  if (desktopToggle) {
+    desktopToggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      if (html.classList.contains('dark')) {
+        localStorage.setItem('theme', 'dark');
+      } else {
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  }
+
+  // Event listener for the mobile switcher
+  if (mobileToggle) {
+    mobileToggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      if (html.classList.contains('dark')) {
+        localStorage.setItem('theme', 'dark');
+      } else {
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  }
 </script>
 </body>
 

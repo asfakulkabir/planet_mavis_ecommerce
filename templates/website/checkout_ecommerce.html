@@ -4,55 +4,47 @@
 
 {% block content %}
 
-
-
-
-
-<section class="text-gray-600 body-font">
+<section class="text-gray-800 dark:text-gray-200">
     <div class="container px-5 py-10 mx-auto">
-        <h2 class="text-3xl font-semibold text-gray-900 mb-6">চেকআউট</h2>
+        <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">চেকআউট</h2>
 
         <div class="grid md:grid-cols-2 gap-8">
-            <!-- কার্ট সারাংশ -->
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-medium text-gray-900 mb-4">আপনার কার্ট</h3>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-4">আপনার কার্ট</h3>
                 <div id="cart-items">
-                    <!-- কার্ট আইটেমসমূহ এখানে দেখানো হবে -->
-                    <ul id="cart-items-list"></ul>
+                    <ul id="cart-items-list" class="text-gray-600 dark:text-gray-400"></ul>
                 </div>
-                <p class="text-lg font-semibold text-gray-900 mt-4">
-                    মোট মূল্য: <span id="cart-subtotal" class="text-red-500">৳0</span>
+                <p class="text-lg font-semibold text-gray-900 dark:text-white mt-4">
+                    মোট মূল্য: <span id="cart-subtotal" class="text-lime-600 dark:text-lime-400">৳0</span>
                 </p>
             </div>
 
-            <!-- চেকআউট ফর্ম -->
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-medium text-gray-900 mb-4">বিলিং বিবরণ</h3>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-4">বিলিং বিবরণ</h3>
                 <form method="POST" id="checkout-form">
                     {% csrf_token %}
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">সম্পূর্ণ নাম</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">সম্পূর্ণ নাম</label>
                             <input type="text" name="customer_name" required
-                                class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500">
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">ফোন নাম্বার</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">ফোন নাম্বার</label>
                             <input type="number" name="customer_phone_number" required
-                                class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500">
                         </div>
 
                         
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">সম্পুর্ন ঠিকানা</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">সম্পুর্ন ঠিকানা</label>
                             <textarea name="customer_address" required
-                                class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-28"></textarea>
+                                class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 h-28"></textarea>
                         </div>
 
-                        <!-- ডেলিভারি এলাকা -->
-                        <div class="form-group">
-                            <label for="delivery_zone" class="block text-sm font-medium text-gray-700">ডেলিভারি এলাকা নির্বাচন করুন:</label>
+                        <div class="form-group text-gray-700 dark:text-gray-300">
+                            <label for="delivery_zone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">ডেলিভারি এলাকা নির্বাচন করুন:</label>
                             {% for zone in delivery_zones %}
                                 <div class="mt-2">
                                     <input type="radio" name="delivery_zone" value="{{ zone.zone }}" id="zone_{{ forloop.counter }}" 
@@ -64,15 +56,13 @@
                         </div>
                     </div>
 
-                    <!-- লুকানো ইনপুট কার্ট আইটেমসমূহ সংরক্ষণের জন্য -->
                     <input type="hidden" name="cart_items" id="cart-items-json">
 
-                    <!-- মোট হিসাব -->
-                    <p class="text-lg font-semibold text-gray-900 mt-2">
-                        ডেলিভারি চার্জ: <span id="delivery-charge" class="text-red-500">৳0</span>
+                    <p class="text-lg font-semibold text-gray-900 dark:text-white mt-2">
+                        ডেলিভারি চার্জ: <span id="delivery-charge" class="text-red-500 dark:text-yellow-400">৳0</span>
                     </p>
-                    <p class="text-lg font-semibold text-gray-900 mt-2">
-                        মোট গ্র্যান্ড টোটাল: <span id="grand-total" class="text-red-500">৳0</span>
+                    <p class="text-lg font-semibold text-gray-900 dark:text-white mt-2">
+                        মোট গ্র্যান্ড টোটাল: <span id="grand-total" class="text-red-500 dark:text-yellow-400">৳0</span>
                     </p>
                     <button type="submit" id="order-button"
                     class="mt-6 w-full bg-teal-600 text-white py-3 rounded-md text-lg font-semibold hover:bg-teal-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">
@@ -104,13 +94,13 @@
             li.classList.add('flex', 'justify-between', 'items-center', 'border-b', 'py-3');
             li.innerHTML = `
                 <div class="flex items-center">
-                    <img src="${item.image ? item.image : '/static/icons/default-image.webp'}" alt="${item.name}" class="w-16 h-16 object-cover mr-4">
+                    <img src="${item.image ? item.image : '/static/icons/default-image.webp'}" alt="${item.name}" class="w-16 h-16 object-cover object-top mr-4">
                     <div>
-                        <p class="font-semibold">${item.name}</p>
-                        <p class="text-sm text-gray-600">${Object.entries(item.variation).map(([key, value]) => `${key}: ${value}`).join(', ')}</p>
+                        <p class="font-semibold text-gray-900 dark:text-gray-50">${item.name}</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">${Object.entries(item.variation).map(([key, value]) => `${key}: ${value}`).join(', ')}</p>
                     </div>
                 </div>
-                <p class="font-semibold">৳${item.price}<span class="text-rose-800 text-xs"> x ${item.quantity}</span> </p>
+                <p class="font-semibold dark:text-white">৳${item.price}<span class="text-lime-800 dark:text-lime-400 text-xs"> x ${item.quantity}</span> </p>
             `;
             cartItemsList.appendChild(li);
 

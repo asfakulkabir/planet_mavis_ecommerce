@@ -1,37 +1,31 @@
 <div id="sidebar-container">
-    <!-- Toggle Button -->
     <button id="toggle-sidebar" class="fixed bottom-8 right-4 z-20 rounded-full bg-green-600 p-4 text-white focus-visible:outline-green-700 cursor-pointer">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5" class="size-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
         </svg>
     </button>
 
-    <!-- Sidebar -->
-    <nav id="sidebar" class="fixed right-0 top-0 z-50 h-full w-80 bg-white shadow-lg border-l border-gray-200 p-4 transition-transform duration-300" style="transform: translateX(100%);">
-        <!-- Sidebar Header -->
+    <nav id="sidebar" class="fixed right-0 top-0 z-50 h-full w-80 bg-white dark:bg-gray-800 shadow-lg border-l border-gray-200 dark:border-gray-700 p-4 transition-transform duration-300" style="transform: translateX(100%);">
         <div class="flex items-center justify-between">
-            <h3 class="text-lg font-medium text-gray-900">Your Cart</h3>
-            <button id="close-sidebar" class="text-gray-600">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Your Cart</h3>
+            <button id="close-sidebar" class="text-gray-600 dark:text-gray-400">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
                 </svg>
             </button>
         </div>
 
-        <!-- Cart Items -->
         <div id="cart-items" class="flex flex-col gap-2 overflow-y-auto py-4">
-            <!-- Cart items will be dynamically inserted here -->
-        </div>
+            </div>
 
-        <!-- Sidebar Footer -->
-        <div class="mt-auto border-t pt-4 w-ful" id="cart-action-buttons">
-            <div class="flex items-center justify-between text-lg font-bold text-gray-900">
+        <div class="mt-auto border-t border-gray-200 dark:border-gray-700 pt-4 w-ful" id="cart-action-buttons">
+            <div class="flex items-center justify-between text-lg font-bold text-gray-900 dark:text-gray-100">
                 <span>Total</span>
                 <span id="total-price">৳0</span>
             </div>
             <div class="flex gap-2">
-            <button id="clear-cart" class="mt-4 w-full bg-gray-600 text-white p-2 rounded hover:bg-gray-700">Clear Cart</button>
-            <a href="{% url 'website:checkout_ecommerce' %}" class="mt-4 w-full bg-rose-800 text-white p-2 rounded hover:bg-rose-900 flex items-center text-center justify-center">Checkout</a>
+                <button id="clear-cart" class="mt-4 w-full bg-gray-600 dark:bg-gray-700 text-white p-2 rounded hover:bg-gray-700 dark:hover:bg-gray-600">Clear Cart</button>
+                <a href="{% url 'website:checkout_ecommerce' %}" class="mt-4 w-full bg-lime-800 text-white p-2 rounded hover:bg-lime-700 flex items-center text-center justify-center">Checkout</a>
             </div>
         </div>
     </nav>
@@ -100,28 +94,35 @@ cartItemsContainer.addEventListener("click", function (event) {
             total += itemTotal;
 
             const itemHTML = `
-                <div class="flex justify-between gap-4 py-4">
-               <img src="${item.image ? item.image : '/static/icons/default-image.webp'}" class="size-20 object-cover rounded" alt="${item.name}"/>
-                    <div class="mr-auto flex flex-col gap-2">
-                        <p class="text-sm text-gray-900">${item.name}</p>
-                        ${item.variation.color ? `<p class="text-xs text-gray-600">Color: ${item.variation.color}</p>` : ""}
-                        ${item.variation.size ? `<p class="text-xs text-gray-600">Size: ${item.variation.size}</p>` : ""}
-                        ${item.variation.weight ? `<p class="text-xs text-gray-600">Weight: ${item.variation.weight} kg</p>` : ""}
-
-                        <div class="mt-2 flex items-center gap-2">
-                            <button type="button" class="h-8 w-8 flex items-center justify-center rounded-md border border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200 transition decrease-quantity" data-index="${index}" aria-label="Decrease Quantity">
-                                -
-                            </button>
-
-                            <input type="text" class="w-10 h-8 text-center border border-gray-300 bg-white text-gray-700" value="${item.quantity}" readonly/>
-
-                            <button type="button" class="h-8 w-8 flex items-center justify-center rounded-md border border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200 transition increase-quantity" data-index="${index}" aria-label="Increase Quantity">
-                                +
-                            </button>
-                        </div>
+            <div class="flex justify-between gap-4 py-4 border-b border-gray-200 dark:border-gray-700">
+                <img src="${item.image ? item.image : '/static/icons/default-image.webp'}"
+                    class="size-20 object-cover object-top rounded bg-gray-100 dark:bg-gray-700" alt="${item.name}"/>
+                <div class="mr-auto flex flex-col gap-2">
+                    <p class="text-sm text-gray-900 dark:text-gray-100">${item.name}</p>
+                    ${item.variation.color ? `<p class="text-xs text-gray-600 dark:text-gray-300">Color: ${item.variation.color}</p>` : ""}
+                    ${item.variation.size ? `<p class="text-xs text-gray-600 dark:text-gray-300">Size: ${item.variation.size}</p>` : ""}
+                    ${item.variation.weight ? `<p class="text-xs text-gray-600 dark:text-gray-300">Weight: ${item.variation.weight} kg</p>` : ""}
+                
+                    <div class="mt-2 flex items-center gap-2">
+                        <button type="button"
+                            class="h-8 w-8 flex items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-700           dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition decrease-quantity"
+                            data-index="${index}" aria-label="Decrease Quantity">
+                            -
+                        </button>
+                    
+                        <input type="text"
+                            class="w-10 h-8 text-center border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-100"
+                            value="${item.quantity}" readonly/>
+                    
+                        <button type="button"
+                            class="h-8 w-8 flex items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-700           dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition increase-quantity"
+                            data-index="${index}" aria-label="Increase Quantity">
+                            +
+                        </button>
                     </div>
-                    <p class="text-sm font-bold text-gray-900">৳${itemTotal.toFixed(2)}</p>
                 </div>
+                <p class="text-sm font-bold text-gray-900 dark:text-gray-100">৳${itemTotal.toFixed(2)}</p>
+            </div>
             `;
 
             cartItemsContainer.insertAdjacentHTML("beforeend", itemHTML);

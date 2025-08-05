@@ -22,7 +22,7 @@ def home(request):
     mobile_banners = Banner.objects.filter(is_active=True, for_mobile=True).order_by('-created_at')
     categories = Category.objects.all()[:13]
     popular_products = Product.objects.filter(is_featured=True)[:8]
-    home_components = HomeComponents.objects.all()
+    home_components = HomeComponents.objects.all()[:2]
     return render(request, 'website/home.html', {
         'categories': categories,
         'popular_products': popular_products,

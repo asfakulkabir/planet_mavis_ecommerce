@@ -4,27 +4,27 @@
 
 {% block content %}
 
-<div id="mobileSortOptions" class="fixed inset-x-0 bottom-0 z-50 bg-white shadow-lg transform translate-y-full transition-transform duration-300 ease-out md:hidden">
+<div id="mobileSortOptions" class="fixed inset-x-0 bottom-0 z-50 bg-white dark:bg-gray-800 shadow-lg transform translate-y-full transition-transform duration-300 ease-out md:hidden">
     <div class="p-4">
-        <h3 class="text-lg font-semibold mb-4 text-center">Sort Options</h3>
+        <h3 class="text-lg font-semibold mb-4 text-center text-gray-900 dark:text-gray-100">Sort Options</h3>
         <div class="space-y-3">
             {% for key, value in sort_options.items %}
             <button type="button"
                     class="block w-full text-left py-3 px-4 rounded-lg
-                           {% if current_sort == key %}bg-rose-800 text-white{% else %}bg-gray-100 text-gray-800 hover:bg-gray-200{% endif %}
-                           focus:outline-none focus:ring-2 focus:ring-rose-800 focus:ring-offset-2"
+                           {% if current_sort == key %}bg-lime-800 text-white{% else %}bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200 hover:bg-gray-200{% endif %}
+                           focus:outline-none focus:ring-2 focus:ring-lime-800 focus:ring-offset-2"
                     data-sort-key="{{ key }}">
                 {{ value }}
             </button>
             {% endfor %}
         </div>
-        <button type="button" id="closeMobileSortOptions" class="mt-6 w-full py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+        <button type="button" id="closeMobileSortOptions" class="mt-6 w-full py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
             Close
         </button>
     </div>
 </div>
 
-<div id="mobileFilterOptions" class="fixed inset-x-0 bottom-0 z-50 bg-white shadow-lg transform translate-y-full transition-transform duration-300 ease-out md:hidden h-4/5 overflow-y-auto">
+<div id="mobileFilterOptions" class="fixed inset-x-0 bottom-0 z-50 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-lg transform translate-y-full transition-transform duration-300 ease-out md:hidden h-4/5 overflow-y-auto">
     <div class="p-4">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold">Filters</h3>
@@ -36,11 +36,11 @@
         </div>
         <div class="space-y-6 pb-20">
             <div class="filter-section">
-                <h6 class="text-sm font-medium uppercase text-gray-500 px-2 mb-2">Categories</h6>
+                <h6 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400 px-2 mb-2">Categories</h6>
                 <ul class="space-y-1" id="categoryList">
                     <li>
                         <a href="?{% modify_query category=None %}"
-                           class="block px-2 py-1 rounded {% if not current_category %}bg-blue-50 text-rose-900{% else %}hover:bg-gray-100{% endif %}">
+                           class="block px-2 py-1 rounded {% if not current_category %}bg-white dark:bg-gray-700 text-lime-700 dark:text-lime-400{% else %}hover:bg-gray-100{% endif %}">
                             All Categories
                         </a>
                     </li>
@@ -48,7 +48,7 @@
                     <li {% if forloop.counter0 >= 5 %}class="hidden-category"{% endif %}>
                         <div class="flex justify-between items-center text-center">
                             <a href="?{% modify_query category=category.slug %}"
-                           class="block px-2 py-1 rounded {% if current_category == category.slug %}bg-blue-50 text-rose-900{% else %}hover:bg-gray-100{% endif %}">
+                           class="block px-2 py-1 rounded {% if current_category == category.slug %}bg-white text-lime-700{% else %}hover:bg-gray-100{% endif %}">
                             {{ category.name }}
                         </a>
                         {% if category.children.all %}
@@ -67,7 +67,7 @@
                             {% for child in category.children.all %}
                             <li>
                                 <a href="?{% modify_query category=child.slug %}"
-                                   class="block px-2 py-1 rounded {% if current_category == child.slug %}bg-blue-50 text-rose-900{% else %}hover:bg-gray-100{% endif %}">
+                                   class="block px-2 py-1 rounded {% if current_category == child.slug %}bg-blue-50 text-lime-700{% else %}hover:bg-gray-100{% endif %}">
                                     {{ child.name }}
                                 </a>
                             </li>
@@ -78,14 +78,14 @@
                     {% endfor %}
                 </ul>
                 {% if categories|length > 5 %}
-                <button id="viewAllCategoriesBtn" class="mt-2 w-full py-2 px-3 text-rose-800 cursor-pointer underline text-sm text-start">
+                <button id="viewAllCategoriesBtn" class="mt-2 w-full py-2 px-3 text-lime-700 dark:text-lime-400 cursor-pointer underline text-sm text-start">
                     View All Categories
                 </button>
                 {% endif %}
             </div>
 
             <div class="filter-section">
-                <h6 class="text-sm font-medium uppercase text-gray-500 px-2 mb-2">Price Range</h6>
+                <h6 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400 px-2 mb-2">Price Range</h6>
                 <div class="px-2">
                     <div class="flex justify-between mb-2">
                         <span id="mobileMinPriceValue">৳{{ selected_min|floatformat:0 }}</span>
@@ -100,10 +100,10 @@
                                value="{{ selected_max|floatformat:0 }}"
                                class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer price-slider"
                                id="mobileMaxPrice">
-                        <div id="mobileRangeTrack" class="absolute h-full bg-rose-900 rounded-lg"></div>
+                        <div id="mobileRangeTrack" class="absolute h-full bg-lime-900 rounded-lg"></div>
                     </div>
 
-                    <button class="mt-2 w-full py-1 px-3 bg-rose-900 text-white rounded-md text-sm"
+                    <button class="mt-2 w-full py-1 px-3 bg-lime-900 dark:bg-lime-300 dark:text-black text-white rounded-md text-sm"
                             id="applyMobilePriceFilter">
                         Apply Price
                     </button>
@@ -112,15 +112,15 @@
 
             {% if available_filters.colors %}
             <div class="filter-section">
-                <h6 class="text-sm font-medium uppercase text-gray-500 px-2 mb-2">Colors</h6>
+                <h6 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400 px-2 mb-2">Colors</h6>
                 <div class="px-2 space-y-1">
                     {% for color in available_filters.colors %}
                     <div class="flex items-center">
                         <input type="checkbox" id="mobile-color-{{ forloop.counter }}"
                                name="mobile_color" value="{{ color }}"
-                               class="h-4 w-4 text-rose-900 rounded border-gray-300 focus:ring-rose-800"
+                               class="h-4 w-4 text-lime-700 rounded border-gray-300 focus:ring-lime-800"
                                {% if color in selected_colors %}checked{% endif %}>
-                        <label for="mobile-color-{{ forloop.counter }}" class="ml-2 text-sm text-gray-700 capitalize">
+                        <label for="mobile-color-{{ forloop.counter }}" class="ml-2 text-sm text-gray-700 dark:text-gray-200 capitalize">
                             {{ color }}
                         </label>
                     </div>
@@ -131,15 +131,15 @@
 
             {% if available_filters.sizes %}
             <div class="filter-section">
-                <h6 class="text-sm font-medium uppercase text-gray-500 px-2 mb-2">Sizes</h6>
+                <h6 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400 px-2 mb-2">Sizes</h6>
                 <div class="px-2 space-y-1">
                     {% for size in available_filters.sizes %}
                     <div class="flex items-center">
                         <input type="checkbox" id="mobile-size-{{ forloop.counter }}"
                                name="mobile_size" value="{{ size }}"
-                               class="h-4 w-4 text-rose-900 rounded border-gray-300 focus:ring-rose-800"
+                               class="h-4 w-4 text-lime-700 rounded border-gray-300 focus:ring-lime-800"
                                {% if size in selected_sizes %}checked{% endif %}>
-                        <label for="mobile-size-{{ forloop.counter }}" class="ml-2 text-sm text-gray-700">
+                        <label for="mobile-size-{{ forloop.counter }}" class="ml-2 text-sm text-gray-700 dark:text-gray-200">
                             {{ size }}
                         </label>
                     </div>
@@ -150,15 +150,15 @@
 
             {% if available_filters.weights %}
             <div class="filter-section">
-                <h6 class="text-sm font-medium uppercase text-gray-500 px-2 mb-2">Weights</h6>
+                <h6 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400 px-2 mb-2">Weights</h6>
                 <div class="px-2 space-y-1">
                     {% for weight in available_filters.weights %}
                     <div class="flex items-center">
                         <input type="checkbox" id="mobile-weight-{{ forloop.counter }}"
                                name="mobile_weight" value="{{ weight }}"
-                               class="h-4 w-4 text-rose-900 rounded border-gray-300 focus:ring-rose-800"
+                               class="h-4 w-4 text-lime-700 rounded border-gray-300 focus:ring-lime-800"
                                {% if weight in selected_weights %}checked{% endif %}>
-                        <label for="mobile-weight-{{ forloop.counter }}" class="ml-2 text-sm text-gray-700">
+                        <label for="mobile-weight-{{ forloop.counter }}" class="ml-2 text-sm text-gray-700 dark:text-gray-200">
                             {{ weight }}
                         </label>
                     </div>
@@ -172,35 +172,35 @@
 
 <div id="backdrop" class="fixed inset-0 bg-black/50 z-40 hidden transition-opacity duration-300 ease-out opacity-0"></div>
 
-<div class="fixed md:hidden bottom-0 left-0 z-40 w-full h-16 bg-white border-t border-gray-200">
+<div class="fixed md:hidden bottom-0 left-0 w-full h-14 z-10 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
   <div class="grid h-full max-w-lg grid-cols-2 mx-auto font-medium">
-    <button type="button" class="inline-flex items-center justify-center px-5 hover:bg-gray-50 group text-center space-x-2" id="mobileFilterToggle">
-      <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+    <button type="button" class="inline-flex items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group text-center space-x-2" id="mobileFilterToggle">
+      <svg class="w-6 h-6 text-gray-800 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
         <path d="M10.83 5a3.001 3.001 0 0 0-5.66 0H4a1 1 0 1 0 0 2h1.17a3.001 3.001 0 0 0 5.66 0H20a1 1 0 1 0 0-2h-9.17ZM4 11h9.17a3.001 3.001 0 0 1 5.66 0H20a1 1 0 1 1 0 2h-1.17a3.001 3.001 0 0 1-5.66 0H4a1 1 0 1 1 0-2Zm1.17 6H4a1 1 0 1 0 0 2h1.17a3.001 3.001 0 0 0 5.66 0H20a1 1 0 1 0 0-2h-9.17a3.001 3.001 0 0 0-5.66 0Z"/>
       </svg>
-      <span class="text-sm text-gray-500 group-hover:text-blue-600">FILTERS</span>
+      <span class="text-sm text-gray-500 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400">FILTERS</span>
     </button>
-    <button type="button" class="inline-flex items-center justify-center px-5 hover:bg-gray-50 group text-center space-x-2" id="mobileSortToggle">
-      <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+    <button type="button" class="inline-flex items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group text-center space-x-2" id="mobileSortToggle">
+      <svg class="w-6 h-6 text-gray-800 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 20V7m0 13-4-4m4 4 4-4m4-12v13m0-13 4 4m-4-4-4 4"/>
       </svg>
-      <span class="text-sm text-gray-500 group-hover:text-blue-600">SORT</span>
+      <span class="text-sm text-gray-500 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400">SORT</span>
     </button>
   </div>
 </div>
 
-<div class="mx-auto p-4">
+<div class="mx-auto p-4 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
     <div class="flex flex-col md:flex-row md:gap-6">
         <aside class="w-full md:w-64 flex-shrink-0">
             <div class="sticky top-4 space-y-6">
-                <h5 class="text-lg font-semibold px-2 hidden md:block">Filters</h5>
+                <h5 class="text-lg font-semibold px-2 hidden md:block text-gray-900 dark:text-white">Filters</h5>
                 <div id="filterSections" class="hidden md:block space-y-6">
                     <div class="filter-section">
-                        <h6 class="text-sm font-medium uppercase text-gray-500 px-2 mb-2">Categories</h6>
+                        <h6 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400 px-2 mb-2">Categories</h6>
                         <ul class="space-y-1" id="desktopCategoryList">
                             <li>
                                 <a href="?{% modify_query category=None %}"
-                                   class="block px-2 py-1 rounded {% if not current_category %}bg-blue-50 text-rose-900{% else %}hover:bg-gray-100{% endif %}">
+                                   class="block px-2 py-1 rounded {% if not current_category %}bg-blue-50 dark:bg-lime-900 text-lime-700 dark:text-white{% else %}hover:bg-gray-100 dark:hover:bg-gray-800{% endif %}">
                                     All Categories
                                 </a>
                             </li>
@@ -208,12 +208,12 @@
                             <li {% if forloop.counter0 >= 5 %}class="hidden-category"{% endif %}>
                                <div class="flex items-end justify-between text-center">
                                  <a href="?{% modify_query category=category.slug %}"
-                                   class="block px-2 py-1 rounded {% if current_category == category.slug %}bg-blue-50 text-rose-900{% else %}hover:bg-gray-100{% endif %}">
+                                   class="block px-2 py-1 rounded {% if current_category == category.slug %}bg-blue-50 dark:bg-lime-900 text-lime-700 dark:text-white{% else %}hover:bg-gray-100 dark:hover:bg-gray-800{% endif %}">
                                     {{ category.name }}
                                 </a>
                                 {% if category.children.all %}
                                  <button onclick="toggleSubcategories('second-subcat-{{ category.id }}', this)"
-                                         class="text-gray-500 hover:text-gray-900 px-2">
+                                         class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 px-2">
                                    <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2"
                                         viewBox="0 0 24 24">
                                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
@@ -227,7 +227,7 @@
                                     {% for child in category.children.all %}
                                     <li>
                                         <a href="?{% modify_query category=child.slug %}"
-                                           class="block px-2 py-1 rounded {% if current_category == child.slug %}bg-blue-50 text-rose-900{% else %}hover:bg-gray-100{% endif %}">
+                                           class="block px-2 py-1 rounded {% if current_category == child.slug %}bg-blue-50 dark:bg-lime-900 text-lime-700 dark:text-white{% else %}hover:bg-gray-100 dark:hover:bg-gray-800{% endif %}">
                                             {{ child.name }}
                                         </a>
                                     </li>
@@ -239,20 +239,20 @@
                         </ul>
                         {% if categories|length > 5 %}
 
-                                                <button id="viewAllDesktopCategoriesBtn" class="mt-2 w-full py-2 px-3 text-rose-800 cursor-pointer underline text-sm text-start">
+                                                <button id="viewAllDesktopCategoriesBtn" class="mt-2 w-full py-2 px-3 text-lime-800 dark:text-lime-400 cursor-pointer underline text-sm text-start">
                             View All Categories
                         </button>
                         {% endif %}
                     </div>
 
                     <div class="filter-section">
-                        <h6 class="text-sm font-medium uppercase text-gray-500 px-2 mb-2">Price Range</h6>
+                        <h6 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400 px-2 mb-2">Price Range</h6>
                         <div class="px-2">
-                            <div class="flex justify-between mb-2">
+                            <div class="flex justify-between mb-2 text-gray-900 dark:text-gray-100">
                                 <span id="minPriceValue">৳{{ selected_min|floatformat:0 }}</span>
                                 <span id="maxPriceValue">৳{{ selected_max|floatformat:0 }}</span>
                             </div>
-                            <div class="relative h-2 bg-gray-200 rounded-lg mb-4">
+                            <div class="relative h-2 bg-gray-200 dark:bg-gray-700 rounded-lg mb-4">
                                 <input type="range" min="{{ min_price|floatformat:0 }}" max="{{ max_price|floatformat:0 }}"
                                        value="{{ selected_min|floatformat:0 }}"
                                        class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer price-slider"
@@ -261,10 +261,10 @@
                                        value="{{ selected_max|floatformat:0 }}"
                                        class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer price-slider"
                                        id="maxPrice">
-                                <div id="rangeTrack" class="absolute h-full bg-rose-900 rounded-lg"></div>
+                                <div id="rangeTrack" class="absolute h-full bg-lime-900 dark:bg-lime-600 rounded-lg"></div>
                             </div>
 
-                            <button class="mt-2 w-full py-1 px-3 bg-rose-900 text-white rounded-md text-sm"
+                            <button class="mt-2 w-full py-1 px-3 bg-lime-900 dark:bg-lime-600 text-white rounded-md text-sm"
                                     id="applyPriceFilter">
                                 Apply Price
                             </button>
@@ -273,15 +273,15 @@
 
                     {% if available_filters.colors %}
                     <div class="filter-section">
-                        <h6 class="text-sm font-medium uppercase text-gray-500 px-2 mb-2">Colors</h6>
+                        <h6 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400 px-2 mb-2">Colors</h6>
                         <div class="px-2 space-y-1">
                             {% for color in available_filters.colors %}
                             <div class="flex items-center">
                                 <input type="checkbox" id="color-{{ forloop.counter }}"
                                        name="color" value="{{ color }}"
-                                       class="h-4 w-4 text-rose-900 rounded border-gray-300 focus:ring-rose-800"
+                                       class="h-4 w-4 text-lime-700 dark:text-lime-500 rounded border-gray-300 dark:border-gray-600 focus:ring-lime-800"
                                        {% if color in selected_colors %}checked{% endif %}>
-                                <label for="color-{{ forloop.counter }}" class="ml-2 text-sm text-gray-700 capitalize">
+                                <label for="color-{{ forloop.counter }}" class="ml-2 text-sm text-gray-700 dark:text-gray-300 capitalize">
                                     {{ color }}
                                 </label>
                             </div>
@@ -292,15 +292,15 @@
 
                     {% if available_filters.weights %}
                     <div class="filter-section">
-                        <h6 class="text-sm font-medium uppercase text-gray-500 px-2 mb-2">Weights</h6>
+                        <h6 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400 px-2 mb-2">Weights</h6>
                         <div class="px-2 space-y-1">
                             {% for weight in available_filters.weights %}
                             <div class="flex items-center">
                                 <input type="checkbox" id="weight-{{ forloop.counter }}"
                                        name="weight" value="{{ weight }}"
-                                       class="h-4 w-4 text-rose-900 rounded border-gray-300 focus:ring-rose-800"
+                                       class="h-4 w-4 text-lime-700 dark:text-lime-500 rounded border-gray-300 dark:border-gray-600 focus:ring-lime-800"
                                        {% if weight in selected_weights %}checked{% endif %}>
-                                <label for="weight-{{ forloop.counter }}" class="ml-2 text-sm text-gray-700">
+                                <label for="weight-{{ forloop.counter }}" class="ml-2 text-sm text-gray-700 dark:text-gray-300">
                                     {{ weight }}
                                 </label>
                             </div>
@@ -314,15 +314,15 @@
 
         <main class="flex-1">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                <h1 class="text-2xl font-bold">Shop</h1>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Shop</h1>
 
                 <div class="hidden md:flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                     <form class="w-full sm:w-64" method="get">
                         <div class="relative">
                             <input type="text" name="search" placeholder="Search products..."
                                    value="{{ search_query }}"
-                                   class="w-full pl-4 pr-10 py-2 border rounded-lg focus:ring-rose-800 focus:border-rose-800">
-                            <button type="submit" class="absolute right-2 top-2 text-gray-400 hover:text-gray-600">
+                                   class="w-full pl-4 pr-10 py-2 border rounded-lg focus:ring-lime-800 focus:border-lime-800 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100">
+                            <button type="submit" class="absolute right-2 top-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
@@ -332,7 +332,7 @@
 
                     <div class="relative w-full sm:w-48">
                         <select id="sortDropdown"
-                                class="w-full pl-3 pr-10 py-2 border rounded-lg focus:ring-rose-800 focus:border-rose-800 appearance-none bg-white">
+                                class="w-full pl-3 pr-10 py-2 border rounded-lg focus:ring-lime-800 focus:border-lime-800 appearance-none bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100">
                             {% for key, value in sort_options.items %}
                             <option value="{{ key }}" {% if current_sort == key %}selected{% endif %}>
                                 Sort: {{ value }}
@@ -340,7 +340,7 @@
                             {% endfor %}
                         </select>
                         <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 dark:text-gray-500" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </div>
@@ -350,12 +350,12 @@
 
             <div id="skeletonLoading" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-4 lg:gap-5 xl:gap-6">
                 {% for i in "12345678" %}
-                <div class="bg-white rounded-lg overflow-hidden shadow-sm animate-pulse">
-                    <div class="bg-gray-200 h-48 w-full"></div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm animate-pulse">
+                    <div class="bg-gray-200 dark:bg-gray-700 h-48 w-full"></div>
                     <div class="p-4 space-y-3">
-                        <div class="h-4 bg-gray-200 rounded w-3/4"></div>
-                        <div class="h-4 bg-gray-200 rounded w-1/2"></div>
-                        <div class="h-4 bg-gray-200 rounded w-1/4"></div>
+                        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+                        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
                     </div>
                 </div>
                 {% endfor %}
@@ -364,17 +364,17 @@
             <div id="productGrid" class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-4 lg:gap-5 xl:gap-6">
                 {% if products %}
                     {% for product in products %}
-                    <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 relative">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 relative">
                         <a href="{% url 'website:product_detail' product.slug %}" class="block">
                             {% if product.images.first %}
                             <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}"
-                                class="aspect-square w-full bg-gray-200 object-cover object-top group-hover:opacity-75 lg:aspect-auto lg:h-80" />
+                                class="aspect-square w-full bg-gray-200 dark:bg-gray-700 object-cover object-top group-hover:opacity-75 lg:aspect-auto lg:h-80" />
                             {% else %}
                             <img src="/static/icons/default-image.webp" alt="{{ product.name }}"
-                                class="aspect-square w-full bg-gray-200 object-cover object-center group-hover:opacity-75 lg:aspect-auto lg:h-80" />
+                                class="aspect-square w-full bg-gray-200 dark:bg-gray-700 object-cover object-center group-hover:opacity-75 lg:aspect-auto lg:h-80" />
                             {% endif %}
                         </a>
-                        <button class="absolute bottom-2 right-2 p-2 rounded-full text-gray-400 hover:text-red-500 transition-colors duration-200 wishlist-toggle" data-product-id="{{ product.id }}">
+                        <button class="absolute bottom-2 right-2 p-2 rounded-full text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 transition-colors duration-200 wishlist-toggle" data-product-id="{{ product.id }}">
                           <svg class="w-5 h-5 md:w-6 md:h-6 wishlist-icon transition-all duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                           </svg>
@@ -382,18 +382,18 @@
 
 
                         <div class="p-4">
-                            <h3 class="font-medium text-gray-900 mb-1 truncate text-sm lg:text-base">
+                            <h3 class="font-medium text-gray-900 dark:text-gray-100 mb-1 truncate text-sm lg:text-base">
                                 <a href="{% url 'website:product_detail' product.slug %}">{{ product.name }}</a>
                             </h3>
                             <div class="flex justify-between items-center">
                                 <div class="price text-sm lg:text-base">
                                     {% if product.sale_price %}
-                                    <span class="text-rose-800 font-semibold">৳{{ product.sale_price|floatformat:'0' }}</span>
-                                    <span class="text-gray-500 text-sm line-through ml-1">
+                                    <span class="text-lime-800 dark:text-lime-400 font-semibold">৳{{ product.sale_price|floatformat:'0' }}</span>
+                                    <span class="text-gray-500 dark:text-gray-400 text-sm line-through ml-1">
                                         ৳{{ product.regular_price|floatformat:'0' }}
                                     </span>
                                     {% else %}
-                                    <span class="font-semibold text-rose-800">৳{{ product.regular_price|floatformat:'0' }}</span>
+                                    <span class="font-semibold text-lime-800 dark:text-lime-400">৳{{ product.regular_price|floatformat:'0' }}</span>
                                     {% endif %}
                                 </div>
                             </div>
@@ -402,13 +402,13 @@
                     {% endfor %}
                 {% else %}
                     <div class="col-span-full text-center py-12" id="noProductsFound">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <h3 class="mt-2 text-lg font-medium text-gray-900">No products found</h3>
-                        <p class="mt-1 text-gray-500">Try adjusting your search or filter to find what you're looking for.</p>
+                        <h3 class="mt-2 text-lg font-medium text-gray-900 dark:text-gray-100">No products found</h3>
+                        <p class="mt-1 text-gray-500 dark:text-gray-400">Try adjusting your search or filter to find what you're looking for.</p>
                         <div class="mt-6">
-                            <a href="?" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-rose-900 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-800">
+                            <a href="?" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-lime-900 dark:bg-lime-600 hover:bg-blue-700 dark:hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-800">
                                 Clear all filters
                             </a>
                         </div>
@@ -421,7 +421,7 @@
                 <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
                     {% if products.has_previous %}
                     <a href="?{% modify_query page=products.previous_page_number %}"
-                       class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                       class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
                         <span class="sr-only">Previous</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
@@ -432,12 +432,12 @@
                     {% for num in products.paginator.page_range %}
                     {% if products.number == num %}
                     <a href="?{% modify_query page=num %}"
-                       class="relative inline-flex items-center px-4 py-2 border border-rose-800 bg-blue-50 text-sm font-medium text-rose-900">
+                       class="relative inline-flex items-center px-4 py-2 border border-lime-800 dark:border-lime-600 bg-blue-50 dark:bg-lime-900 text-sm font-medium text-lime-700 dark:text-white">
                         {{ num }}
                     </a>
                     {% else %}
                     <a href="?{% modify_query page=num %}"
-                       class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                       class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
                         {{ num }}
                     </a>
                     {% endif %}
@@ -445,7 +445,7 @@
 
                     {% if products.has_next %}
                     <a href="?{% modify_query page=products.next_page_number %}"
-                       class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                       class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
                         <span class="sr-only">Next</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
@@ -458,7 +458,6 @@
         </main>
     </div>
 </div>
-
 <style>
     .hidden-category {
         display: none;
