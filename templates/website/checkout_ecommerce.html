@@ -6,45 +6,50 @@
 
 <section class="text-gray-800 dark:text-gray-200">
     <div class="container px-5 py-10 mx-auto">
-        <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">চেকআউট</h2>
+        <h2 class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">Checkout</h2>
 
         <div class="grid md:grid-cols-2 gap-8">
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-4">আপনার কার্ট</h3>
+                <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-4">Your Cart</h3>
                 <div id="cart-items">
                     <ul id="cart-items-list" class="text-gray-600 dark:text-gray-400"></ul>
                 </div>
                 <p class="text-lg font-semibold text-gray-900 dark:text-white mt-4">
-                    মোট মূল্য: <span id="cart-subtotal" class="text-lime-600 dark:text-lime-400">৳0</span>
+                    Subtotal: <span id="cart-subtotal" class="text-lime-600 dark:text-lime-400">৳0</span>
                 </p>
             </div>
 
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-4">বিলিং বিবরণ</h3>
+                <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-4">Billing Details</h3>
                 <form method="POST" id="checkout-form">
                     {% csrf_token %}
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">সম্পূর্ণ নাম</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Full Name</label>
                             <input type="text" name="customer_name" required
-                                class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                class="w-full p-3 border border-gray-300 dark:border-gray-500 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500">
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">ফোন নাম্বার</label>
-                            <input type="number" name="customer_phone_number" required
-                                class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Phone Number</label>
+                            <input type="tel" 
+                                name="customer_phone_number" 
+                                id="customer_phone_number"
+                                pattern="^(?:\+?88)?01[3-9]\d{8}$"
+                                title="Enter a valid Bangladeshi phone number (e.g., 017xxxxxxxx, +88017xxxxxxxx, 88017xxxxxxxx)"
+                                required
+                                class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none                       focus:ring-2 focus:ring-teal-500">
+                            <p id="phone-error" class="hidden text-red-500 text-sm mt-1">Invalid Bangladeshi phone number.</p>
                         </div>
-
                         
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">সম্পুর্ন ঠিকানা</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Full Address</label>
                             <textarea name="customer_address" required
-                                class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 h-28"></textarea>
+                                class="w-full p-3 border border-gray-300 dark:border-gray-500 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 h-20"></textarea>
                         </div>
 
-                        <div class="form-group text-gray-700 dark:text-gray-300">
-                            <label for="delivery_zone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">ডেলিভারি এলাকা নির্বাচন করুন:</label>
+                        <div class="form-group text-gray-700 dark:text-gray-200">
+                            <label for="delivery_zone" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Select Delivery Zone:</label>
                             {% for zone in delivery_zones %}
                                 <div class="mt-2">
                                     <input type="radio" name="delivery_zone" value="{{ zone.zone }}" id="zone_{{ forloop.counter }}" 
@@ -58,22 +63,141 @@
 
                     <input type="hidden" name="cart_items" id="cart-items-json">
 
-                    <p class="text-lg font-semibold text-gray-900 dark:text-white mt-2">
-                        ডেলিভারি চার্জ: <span id="delivery-charge" class="text-red-500 dark:text-yellow-400">৳0</span>
+                    <div class="bg-lime-50 dark:bg-green-950 p-2 rounded-lg border border-lime-500 dark:border-green-700 mt-2">
+                    <p class="text-lg font-semibold text-gray-900 dark:text-white mt-1">
+                        Delivery Charge: <span id="delivery-charge" class="text-red-500 dark:text-yellow-400">৳0</span>
                     </p>
-                    <p class="text-lg font-semibold text-gray-900 dark:text-white mt-2">
-                        মোট গ্র্যান্ড টোটাল: <span id="grand-total" class="text-red-500 dark:text-yellow-400">৳0</span>
+                    <p class="text-lg font-semibold text-gray-900 dark:text-white mt-1">
+                        Grand Total: <span id="grand-total" class="text-red-500 dark:text-yellow-400">৳0</span>
                     </p>
+                    </div>
+
+                        <div class="mt-4">
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Select Payment Method</label>
+    <div class="mt-2 space-y-2">
+        <div class="flex items-center">
+            <input type="radio" id="cod" name="payment_method" value="cod" checked
+                class="h-4 w-4 text-teal-600 border-gray-300 dark:border-gray-600 focus:ring-teal-500">
+            <label for="cod" class="ml-2 block text-sm text-gray-700 dark:text-gray-200">Cash on Delivery</label>
+        </div>
+        <div class="flex items-center">
+            <input type="radio" id="bkash" name="payment_method" value="bkash"
+                class="h-4 w-4 text-teal-600 border-gray-300 dark:border-gray-600 focus:ring-teal-500">
+            <label for="bkash" class="ml-2 block text-sm text-gray-700 dark:text-gray-200">Pay by bKash Personal </label>
+        </div>
+    </div>
+</div>
+                    <div class="mt-2">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Bkash Transaction ID <span id="copy-number" class="text-red-500 dark:text-lime-300">01769021221 </span><span id="copy-status" class="ml-2 text-sm text-rose-500 hidden">Copied! </span>Personal (send Money)</label>
+                        <input type="text" name="bkash_trx_id" 
+                            class="w-full p-3 border border-gray-300 dark:border-gray-500 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-whitefocus:outline-none focus:ring-2 focus:ring-teal-500">
+                    </div>
+
+                    <div class="mt-2">
+                        <label class="block text-sm font-medium text-rose-700 dark:text-rose-400">**You have to pay advance delivery charge for Outside Dhaka</label>
+                    </div>
                     <button type="submit" id="order-button"
                     class="mt-6 w-full bg-teal-600 text-white py-3 rounded-md text-lg font-semibold hover:bg-teal-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">
-                    অর্ডার করুন
+                    Place Order
                 </button>
                 </form>
             </div>
         </div>
     </div>
 </section>
+
+
 <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // 🚨 If cart is empty, redirect to shop with a message
+    if (cart.length === 0) {
+        alert("Your cart is empty. Redirecting to shop...");
+        window.location.href = "{% url 'website:shop' %}";
+        return; // stop the rest of the script
+    }
+
+    const cartItemsList = document.getElementById('cart-items-list');
+    const cartSubtotalElement = document.getElementById('cart-subtotal');
+    const deliveryChargeElement = document.getElementById('delivery-charge');
+    const grandTotalElement = document.getElementById('grand-total');
+    const checkoutForm = document.getElementById('checkout-form');
+    const cartItemsJsonInput = document.getElementById('cart-items-json');
+    const deliveryZoneRadios = document.querySelectorAll('.delivery-zone-radio');
+
+    let subtotal = 0;
+
+    // Render cart items
+    cart.forEach(item => {
+        const li = document.createElement('li');
+        li.classList.add('flex', 'justify-between', 'items-center', 'border-b', 'py-3');
+        li.innerHTML = `
+            <div class="flex items-center">
+                <img src="${item.image ? item.image : '/static/icons/default-image.webp'}" alt="${item.name}" class="w-16 h-16 object-cover object-top mr-4">
+                <div>
+                    <p class="font-semibold text-gray-900 dark:text-gray-50">${item.name}</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-200">${Object.entries(item.variation).map(([key, value]) => `${key}: ${value}`).join(', ')}</p>
+                </div>
+            </div>
+            <p class="font-semibold dark:text-white">৳${item.price}<span class="text-lime-800 dark:text-lime-400 text-xs"> x ${item.quantity}</span> </p>
+        `;
+        cartItemsList.appendChild(li);
+        subtotal += item.price * item.quantity;
+    });
+
+    // Set initial subtotal
+    cartSubtotalElement.textContent = `৳${subtotal.toFixed(2)}`;
+
+    function updateTotals() {
+        const selectedZone = document.querySelector('input[name="delivery_zone"]:checked');
+        const deliveryCharge = selectedZone ? parseFloat(selectedZone.dataset.charge) : 0;
+        const grandTotal = subtotal + deliveryCharge;
+
+        deliveryChargeElement.textContent = `৳${deliveryCharge.toFixed(2)}`;
+        grandTotalElement.textContent = `৳${grandTotal.toFixed(2)}`;
+    }
+
+    deliveryZoneRadios.forEach(radio => radio.addEventListener('change', updateTotals));
+    updateTotals();
+
+    checkoutForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        cartItemsJsonInput.value = JSON.stringify(cart);
+        this.submit();
+        localStorage.removeItem('cart');
+    });
+});
+</script>
+
+<!-- copy  -->
+<script>
+document.getElementById('copy-number').addEventListener('click', function () {
+    const number = this.textContent.trim();
+    navigator.clipboard.writeText(number).then(() => {
+        const status = document.getElementById('copy-status');
+        status.classList.remove('hidden');
+        setTimeout(() => status.classList.add('hidden'), 2000); // hide after 2 sec
+    }).catch(err => {
+        console.error('Failed to copy text: ', err);
+    });
+});
+</script>
+
+<!-- validation -->
+<script>
+document.getElementById('customer_phone_number').addEventListener('input', function () {
+    const phonePattern = /^(?:\+?88)?01[3-9]\d{8}$/;
+    const errorEl = document.getElementById('phone-error');
+
+    if (!phonePattern.test(this.value)) {
+        errorEl.classList.remove('hidden');
+    } else {
+        errorEl.classList.add('hidden');
+    }
+});
+</script>
+<!-- <script>
 
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -97,7 +221,7 @@
                     <img src="${item.image ? item.image : '/static/icons/default-image.webp'}" alt="${item.name}" class="w-16 h-16 object-cover object-top mr-4">
                     <div>
                         <p class="font-semibold text-gray-900 dark:text-gray-50">${item.name}</p>
-                        <p class="text-sm text-gray-600 dark:text-gray-300">${Object.entries(item.variation).map(([key, value]) => `${key}: ${value}`).join(', ')}</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-200">${Object.entries(item.variation).map(([key, value]) => `${key}: ${value}`).join(', ')}</p>
                     </div>
                 </div>
                 <p class="font-semibold dark:text-white">৳${item.price}<span class="text-lime-800 dark:text-lime-400 text-xs"> x ${item.quantity}</span> </p>
@@ -142,7 +266,7 @@
         });
     });
 </script>
-
+ -->
 
 {% endblock %}
 

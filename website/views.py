@@ -13,6 +13,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from orders.models import *
+from django.contrib import messages
 
 
 def home(request):
@@ -21,11 +22,13 @@ def home(request):
     desktop_banners = Banner.objects.filter(is_active=True, for_mobile=False).order_by('-created_at')
     mobile_banners = Banner.objects.filter(is_active=True, for_mobile=True).order_by('-created_at')
     categories = Category.objects.all()[:13]
-    popular_products = Product.objects.filter(is_featured=True)[:8]
+    popular_products = Product.objects.filter(is_featured=True)[:20]
+    all_products = Product.objects.filter(is_active=True)[:20]
     home_components = HomeComponents.objects.all()[:2]
     return render(request, 'website/home.html', {
         'categories': categories,
         'popular_products': popular_products,
+        'all_products': all_products,
         'desktop_banners': desktop_banners,
         'mobile_banners': mobile_banners,
         'testimonials_desktop': testimonials_desktop,
@@ -415,7 +418,7 @@ def wishlist_products_api(request):
 
 
 
-def checkout_ecommerce(request):
+def checkout_ecommerce(request):        
     if request.method == 'POST':
         try:
             # Get cart items from the POST request
@@ -452,9 +455,11 @@ def checkout_ecommerce(request):
             # Save the order
             order = Ecommercecheckouts.objects.create(
                 items_json=json.dumps(cart_items),
+                payment_method=request.POST.get('payment_method', ''),
                 customer_name=request.POST.get('customer_name', ''),
                 customer_phone=request.POST.get('customer_phone_number', ''),
                 customer_address=request.POST.get('customer_address', ''),
+                bkash_trx_id=request.POST.get('bkash_trx_id', ''),
                 delivery_charge=delivery_charge,
                 total_amount=grand_total,
                 status='processing'

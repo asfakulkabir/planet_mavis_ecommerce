@@ -89,7 +89,7 @@ class EcommercecheckoutsAdmin(ImportExportModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': (('customer_name', 'customer_phone'), 'customer_address', 'delivery_charge', 'total_amount_display', 'status', 'created_at',)
+            'fields': (('customer_name', 'customer_phone'), 'customer_address', 'delivery_charge','payment_method','bkash_trx_id', 'total_amount_display', 'status', 'created_at',)
         }),
         ('Ordered Products Details', {
             'fields': ('view_items_table_detail',),

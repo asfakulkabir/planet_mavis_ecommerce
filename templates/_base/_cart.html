@@ -78,7 +78,7 @@ cartItemsContainer.addEventListener("click", function (event) {
 
         // If the cart is empty, show a message
         if (cart.length === 0) {
-            cartItemsContainer.innerHTML = '<p class="text-center text-gray-600">Your cart is empty</p>';
+            cartItemsContainer.innerHTML = '<p class="text-center text-gray-600 dark:text-gray-200">Your cart is empty</p>';
             totalPriceElement.textContent = '৳0';
             cartActionButton.classList.add('hidden')
             return;

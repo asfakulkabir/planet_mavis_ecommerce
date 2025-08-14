@@ -46,6 +46,38 @@
 {% include '_base/navbar.html' %}
 {% include '_base/_cart.html' %}
 
+
+{% if messages %}
+    <div class="mb-6" id="django-messages">
+        {% for message in messages %}
+            <div class="p-4 rounded-md flex items-center justify-between gap-4
+                {% if message.tags == 'success' %}bg-green-100 text-green-700
+                {% elif message.tags == 'error' %}bg-red-100 text-red-700
+                {% elif message.tags == 'warning' %}bg-yellow-100 text-yellow-700
+                {% else %}bg-blue-100 text-blue-700{% endif %}
+                mb-2 shadow-sm" role="alert">
+                
+                <span>{{ message }}</span>
+
+                <!-- Rotating circle -->
+                <div class="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const msgSection = document.getElementById('django-messages');
+                if (msgSection) {
+                    msgSection.remove();
+                }
+            }, 4000); // Hide after 4 seconds
+        });
+    </script>
+{% endif %}
+
+
 <div id="notification" class="fixed bottom-4 left-4 z-50 hidden">
     <div class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
