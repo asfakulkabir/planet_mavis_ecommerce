@@ -72,8 +72,8 @@
                     </p>
                     </div>
 
-                        <div class="mt-4">
-<label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Select Payment Method</label>
+<div class="mt-2">
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Select Payment Method</label>
     <div class="mt-2 space-y-2">
         <div class="flex items-center">
             <input type="radio" id="cod" name="payment_method" value="cod" checked
@@ -87,15 +87,13 @@
         </div>
     </div>
 </div>
-                    <div class="mt-2">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Bkash Transaction ID <span id="copy-number" class="text-red-500 dark:text-lime-300">01769021221 </span><span id="copy-status" class="ml-2 text-sm text-rose-500 hidden">Copied! </span>Personal (send Money)</label>
-                        <input type="text" name="bkash_trx_id" 
-                            class="w-full p-3 border border-gray-300 dark:border-gray-500 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-whitefocus:outline-none focus:ring-2 focus:ring-teal-500">
-                    </div>
+<div id="bkash-details" class="mt-4 hidden">
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Bkash Transaction ID <span id="copy-number" class="text-red-500 dark:text-lime-300">01769021221 </span><span id="copy-status" class="ml-2 text-sm text-rose-500 hidden">Copied! </span>Personal (send Money)</label>
+    <input type="text" name="bkash_trx_id" id="bkash-trx-id-input"
+        class="w-full p-3 border border-gray-300 dark:border-gray-500 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500">
+    <label class="block text-sm font-medium text-rose-700 dark:text-rose-400 mt-2">**You have to pay advance delivery charge for Outside Dhaka</label>
+</div>
 
-                    <div class="mt-2">
-                        <label class="block text-sm font-medium text-rose-700 dark:text-rose-400">**You have to pay advance delivery charge for Outside Dhaka</label>
-                    </div>
                     <button type="submit" id="order-button"
                     class="mt-6 w-full bg-teal-600 text-white py-3 rounded-md text-lg font-semibold hover:bg-teal-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">
                     Place Order
@@ -197,6 +195,7 @@ document.getElementById('customer_phone_number').addEventListener('input', funct
     }
 });
 </script>
+
 <!-- <script>
 
 
@@ -267,7 +266,58 @@ document.getElementById('customer_phone_number').addEventListener('input', funct
     });
 </script>
  -->
+<!-- bkash filed hidden  -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const bkashDetailsDiv = document.getElementById('bkash-details');
+    const bkashPaymentRadio = document.getElementById('bkash');
+    const codPaymentRadio = document.getElementById('cod');
+    const bkashTrxInput = document.getElementById('bkash-trx-id-input');
+    const deliveryZoneRadios = document.querySelectorAll('.delivery-zone-radio');
 
+    // Function to show/hide the Bkash details div
+    function toggleBkashDiv(show) {
+        if (show) {
+            bkashDetailsDiv.classList.remove('hidden');
+            bkashTrxInput.setAttribute('required', 'required');
+        } else {
+            bkashDetailsDiv.classList.add('hidden');
+            bkashTrxInput.removeAttribute('required');
+        }
+    }
+
+    // Function to check if any of the 'outside' delivery zones are selected
+    function isOutsideZoneSelected() {
+        for (const radio of deliveryZoneRadios) {
+            if (radio.checked && radio.value.toLowerCase().includes('outside')) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Main logic to determine if the Bkash div should be visible
+    function updateBkashDivVisibility() {
+        const isBkashPaymentSelected = bkashPaymentRadio.checked;
+        const isOutsideZone = isOutsideZoneSelected();
+
+        // The div should be shown if EITHER Bkash payment is selected OR an outside zone is selected.
+        const showDiv = isBkashPaymentSelected || isOutsideZone;
+        toggleBkashDiv(showDiv);
+    }
+
+    // Add event listeners
+    bkashPaymentRadio.addEventListener('change', updateBkashDivVisibility);
+    codPaymentRadio.addEventListener('change', updateBkashDivVisibility);
+
+    deliveryZoneRadios.forEach(radio => {
+        radio.addEventListener('change', updateBkashDivVisibility);
+    });
+
+    // Initial check on page load to handle the default state
+    updateBkashDivVisibility();
+});
+ </script>
 {% endblock %}
 
 
