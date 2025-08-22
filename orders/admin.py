@@ -84,23 +84,30 @@ class EcommercecheckoutsAdmin(ImportExportModelAdmin):
     list_filter = ('status', 'created_at', 'delivery_charge')
     search_fields = ('customer_name', 'customer_phone', 'customer_address')
     ordering = ('-created_at',)
+    list_display_links = ('customer_name',)
 
     readonly_fields = ('total_amount_display', 'created_at', 'view_items_table_detail',)
 
     fieldsets = (
-        (None, {
-            'fields': (('customer_name', 'customer_phone'), 'customer_address', 'delivery_charge','payment_method','bkash_trx_id', 'total_amount_display', 'status', 'created_at',)
-        }),
-        ('Ordered Products Details', {
-            'fields': ('view_items_table_detail',),
-            'description': 'Details of products in this order.',
-        }),
-        ('Raw Data (Advanced)', {
-            'fields': ('items_json',),
-            'classes': ('collapse',),
-        }),
-    )
-
+            (None, {
+                'fields': (
+                    ('customer_name', 'customer_phone'), 
+                    'customer_address', 
+                    'delivery_charge',
+                    ('payment_method', 'bkash_trx_id'),  # This will put them on one line
+                    ('total_amount_display', 'status', 'created_at'), # This will put them on one line
+                )
+            }),
+            ('Ordered Products Details', {
+                'fields': ('view_items_table_detail',),
+                'description': 'Details of products in this order.',
+            }),
+            ('Raw Data (Advanced)', {
+                'fields': ('items_json',),
+                'classes': ('collapse',),
+            }),
+        )
+    
     def total_amount_display(self, obj):
         return f'{obj.total_amount} ৳'
     total_amount_display.short_description = "Calculated Total Amount"

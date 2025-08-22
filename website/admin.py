@@ -4,11 +4,20 @@ from .models import *
 from django.utils.html import format_html
 
 
+
 @admin.register(Banner)
 class BannerAdmin(admin.ModelAdmin):
-    list_display = ['title', 'is_active', 'for_mobile', 'created_at']
+    list_display = ['thumbnail_preview', 'title', 'is_active', 'for_mobile', 'created_at']
     list_filter = ['is_active', 'for_mobile']
 
+    def thumbnail_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" width="100" height="auto" style="border-radius: 8px;" />'.format(obj.image.url))
+        return "No Image"
+
+    thumbnail_preview.short_description = 'Image'
+
+    
 @admin.register(Testimonial)
 class TestimonialAdmin(admin.ModelAdmin):
     list_display = ['id', 'image', 'is_active', 'created_at']

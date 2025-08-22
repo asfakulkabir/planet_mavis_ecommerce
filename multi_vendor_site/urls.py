@@ -6,6 +6,10 @@ from django.views.static import serve
 from django.conf import settings
 from django.conf.urls.static import static
 
+admin.site.site_header = "Planet Mavis Admin"
+admin.site.site_title = "Planet Mavis Admin"
+admin.site.index_title = "Welcome to Planet Mavis Administration"
+
 urlpatterns = [
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),#new
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),#new

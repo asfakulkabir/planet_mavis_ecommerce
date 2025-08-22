@@ -1,0 +1,33 @@
+/* static/admin/css/custom_admin.css */
+
+/* Target all input and select fields */
+.form-row input,
+.form-row select,
+.form-row textarea {
+    border: 1px solid #d1d5db; /* A Tailwind CSS-like gray border */
+    padding: 0.5rem 0.75rem; /* Tailwind's py-2 px-3 equivalent */
+    border-radius: 0.25rem; /* A slight rounded corner */
+}
+
+/* Target the specific fields in your Ecommerce checkout model */
+#id_customer_name,
+#id_customer_phone,
+#id_customer_address,
+#id_delivery_charge,
+#id_payment_method,
+#id_bkash_trx_id,
+#id_status,
+#id_items_json {
+    /* You can add more specific styles here if needed */
+}
+
+/* Add padding to the form rows for better spacing */
+.form-row {
+    padding: 0.5rem 0;
+}
+
+/* If you want to style the inlines differently */
+.has-add-form input,
+.has-add-form select {
+    /* Add specific styles for inlines here */
+}

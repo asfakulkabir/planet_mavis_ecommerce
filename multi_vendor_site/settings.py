@@ -15,12 +15,16 @@ SECRET_KEY = 'django-insecure-9)qmh*4yb=s610!wili2x7#8i=f2w3f3#ni!=-b%ozkfc%8oh$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'unfold',  #admin UI
+    'unfold.contrib.filters', # Optional, for special filters
+    'unfold.contrib.forms',   # Optional, for special form elements
+    'unfold.contrib.inlines', # Optional, for special inlines
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
