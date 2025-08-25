@@ -14,7 +14,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from orders.models import *
 from django.contrib import messages
-
+from django.core.mail import send_mail
+from django.conf import settings
 
 def home(request):
     testimonials_desktop = Testimonial.objects.filter(is_active=True, for_mobile=False)
@@ -679,3 +680,53 @@ def track_order(request):
     }
 
     return render(request, 'website/track_order.html', context)
+
+
+
+def contact(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        message = request.POST.get("message")
+
+        if not all([name, email, message]):
+            messages.error(request, "Please fill in all the required fields.")
+            return redirect(reverse("website:contact"))
+
+        try:
+            Contact.objects.create(
+                name=name,
+                email=email,
+                message=message
+            )
+
+            email_subject = f"New Contact Form Submission: {name}"
+            email_message = (
+                f"Name: {name}\n"
+                f"Email: {email}\n\n"
+                f"Message:\n{message}"
+            )
+
+            recipient_email = getattr(settings, 'CONTACT_FORM_RECIPIENT_EMAIL', ['info@m2b.com.my'])
+
+            send_mail(
+                email_subject,
+                email_message,
+                settings.DEFAULT_FROM_EMAIL,
+                recipient_email,
+                fail_silently=False
+            )
+
+            messages.success(request, "Your message has been sent successfully!")
+            return redirect(reverse("website:contact"))
+
+        except Exception as e:
+            print(f"Error processing contact form or sending email: {e}")
+            messages.error(request, "There was an error sending your message. Please try again later.")
+            return redirect(reverse("website:contact"))
+
+    return render(request, "website/contact.html")
+
+
+def about(request):
+    return render(request, "website/about.html")

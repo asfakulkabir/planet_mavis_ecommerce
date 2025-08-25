@@ -1,0 +1,154 @@
+{% extends "_base/_base.html" %}
+
+{% block extra_head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>About Us | Planet Mavis - Gulshan 2, Dhaka, Bangladesh</title>
+    <meta name="description" content="Learn more about Planet Mavis, our services, frequently asked questions, terms of service, and privacy policy. We serve Dhaka and beyond.">
+
+    <!-- Open Graph / Facebook / LinkedIn -->
+    <meta property="og:title" content="About Us - Planet Mavis">
+    <meta property="og:description" content="Discover Planet Mavis, our mission, policies, and how we operate in Dhaka, Bangladesh.">
+    <meta property="og:image" content="https://www.yourwebsite.com/images/about-us-banner.jpg"> <!-- IMPORTANT: Replace with an actual image URL -->
+    <meta property="og:url" content="https://www.yourwebsite.com/about-us/"> <!-- IMPORTANT: Replace with your actual page URL -->
+    <meta property="og:type" content="website">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Planetmavis777"> <!-- Replace with your Twitter handle if different -->
+    <meta name="twitter:title" content="About Us - Planet Mavis">
+    <meta name="twitter:description" content="Explore Planet Mavis's story, services, and customer-focused policies.">
+    <meta name="twitter:image" content="https://www.yourwebsite.com/images/about-us-twitter-card.jpg"> <!-- IMPORTANT: Replace with an actual image URL -->
+
+    <!-- Recommended: Favicon link -->
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 font-inter py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto space-y-12">
+
+        <!-- About Us Section -->
+        <section class="bg-gradient-to-r from-teal-500 to-emerald-600 dark:from-teal-700 dark:to-emerald-800 p-8 rounded-xl shadow-xl text-white text-center">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-4">About Planet Mavis</h1>
+            <p class="text-lg text-teal-100 dark:text-teal-200">
+                At Planet Mavis, we are dedicated to providing exceptional services and products to our valued customers. Located in Gulshan 2, Dhaka, Bangladesh, our mission is to deliver quality and satisfaction with every interaction. We believe in transparency, customer focus, and building lasting relationships.
+            </p>
+        </section>
+
+        <!-- Dynamic Content Sections -->
+        <div class="space-y-8">
+            <!-- FAQ Section -->
+            <section class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200 text-center">Frequently Asked Questions</h2>
+                <div class="space-y-4">
+                    <details class="group border-l-4 border-teal-500 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg shadow transition-all duration-300 open:bg-teal-50 dark:open:bg-gray-900">
+                        <summary class="flex justify-between items-center cursor-pointer text-lg font-semibold text-gray-800 dark:text-gray-200">
+                            What are your delivery zones?
+                            <svg class="h-5 w-5 text-teal-500 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </summary>
+                        <p class="mt-2 text-gray-700 dark:text-gray-300 leading-relaxed">
+                            We offer delivery services across Dhaka. For delivery zones outside Dhaka, customers are required to pay an advance delivery charge. Please contact us for details regarding specific delivery charges for your location.
+                        </p>
+                    </details>
+
+                    <details class="group border-l-4 border-teal-500 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg shadow transition-all duration-300 open:bg-teal-50 dark:open:bg-gray-900">
+                        <summary class="flex justify-between items-center cursor-pointer text-lg font-semibold text-gray-800 dark:text-gray-200">
+                            How can I make online payments?
+                            <svg class="h-5 w-5 text-teal-500 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </summary>
+                        <p class="mt-2 text-gray-700 dark:text-gray-300 leading-relaxed">
+                            For online payments, please use the "Send Money" option on bKash to our personal number: <strong class="text-teal-600 dark:text-teal-400">01711-582834</strong>. Ensure you complete the transaction before confirming your order.
+                        </p>
+                    </details>
+
+                    <details class="group border-l-4 border-teal-500 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg shadow transition-all duration-300 open:bg-teal-50 dark:open:bg-gray-900">
+                        <summary class="flex justify-between items-center cursor-pointer text-lg font-semibold text-gray-800 dark:text-gray-200">
+                            What is your refund policy?
+                            <svg class="h-5 w-5 text-teal-500 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </summary>
+                        <p class="mt-2 text-red-700 dark:text-red-400 font-bold leading-relaxed">
+                            Please note: We do not offer refunds on any purchases. All sales are final. We encourage you to review your order carefully before completing your purchase.
+                        </p>
+                    </details>
+
+                    <details class="group border-l-4 border-teal-500 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg shadow transition-all duration-300 open:bg-teal-50 dark:open:bg-gray-900">
+                        <summary class="flex justify-between items-center cursor-pointer text-lg font-semibold text-gray-800 dark:text-gray-200">
+                            How can I contact customer support?
+                            <svg class="h-5 w-5 text-teal-500 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </summary>
+                        <p class="mt-2 text-gray-700 dark:text-gray-300 leading-relaxed">
+                            You can reach our customer support team via email at <a href="mailto:info@planetmavis.com" class="text-teal-600 hover:underline dark:text-teal-400">sales@planetmavis.com</a>, by phone at <a href="tel:+8801711582834" class="text-teal-600 hover:underline dark:text-teal-400">+880 1711 582 834</a>, or through WhatsApp. Visit our <a href="{% url 'website:contact' %}" class="text-teal-600 hover:underline dark:text-teal-400">Contact Us</a> page for more options.
+                        </p>
+                    </details>
+                </div>
+            </section>
+
+            <!-- Terms of Service Section -->
+            <section id="terms-of-service" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200 text-center">Terms of Service</h2>
+                <div class="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
+                    <p>Welcome to Planet Mavis. By accessing or using our services, you agree to comply with and be bound by the following terms and conditions. Please read them carefully.</p>
+                    <h3>1. Acceptance of Terms</h3>
+                    <p>By using our services, you agree to these Terms of Service. If you do not agree to these terms, you should not use our services.</p>
+                    <h3>2. Service Availability</h3>
+                    <p>We strive to ensure our services are available at all times but do not guarantee uninterrupted access. We reserve the right to modify or discontinue services at any time without prior notice.</p>
+                    <h3>3. Delivery Policy</h3>
+                    <ul>
+                        <li><strong>Dhaka Zone:</strong> Standard delivery terms apply.</li>
+                        <li><strong>Outside Dhaka Zone:</strong> An advance delivery charge is required for all orders. This charge must be paid via bKash "Send Money" option to <strong class="text-teal-600 dark:text-teal-400">01711-582834</strong> before dispatch.</li>
+                    </ul>
+                    <h3>4. Payment Policy</h3>
+                    <ul>
+                        <li>Online payments are accepted via bKash "Send Money" to <strong class="text-teal-600 dark:text-teal-400">01711-582834</strong>.</li>
+                        <li>All payments must be confirmed before order processing begins.</li>
+                    </ul>
+                    <h3>5. No Refund Policy</h3>
+                    <p class="text-red-700 dark:text-red-400 font-bold">All sales are final. We do not offer refunds or exchanges once a purchase is completed. Please ensure your order is correct before payment.</p>
+                    <h3>6. User Conduct</h3>
+                    <p>Users agree not to use our services for any unlawful purpose or in any way that interrupts, damages, or impairs the service.</p>
+                    <h3>7. Changes to Terms</h3>
+                    <p>We reserve the right to update these Terms of Service at any time. Your continued use of the services after any such changes constitutes your acceptance of the new Terms of Service.</p>
+                    <p class="text-sm mt-4">Last updated: August 25, 2025</p>
+                </div>
+            </section>
+
+            <!-- Privacy Policy Section -->
+            <section class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200 text-center">Privacy Policy</h2>
+                <div class="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
+                    <p>Your privacy is important to us. This Privacy Policy explains how Planet Mavis collects, uses, and protects your personal information.</p>
+                    <h3>1. Information We Collect</h3>
+                    <p>We collect information you provide directly to us when you use our services, such as your name, email address, phone number, and delivery address. We also collect basic usage data to improve our services.</p>
+                    <h3>2. How We Use Your Information</h3>
+                    <p>We use the information collected to:</p>
+                    <ul>
+                        <li>Process and fulfill your orders.</li>
+                        <li>Communicate with you regarding your orders and inquiries.</li>
+                        <li>Improve our services and customer experience.</li>
+                        <li>Comply with legal obligations.</li>
+                    </ul>
+                    <h3>3. Information Sharing</h3>
+                    <p>We do not sell or share your personal information with third parties except as necessary to provide our services (e.g., sharing delivery address with a courier service) or when required by law.</p>
+                    <h3>4. Data Security</h3>
+                    <p>We implement reasonable security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction. However, no internet transmission is entirely secure.</p>
+                    <h3>5. Your Choices</h3>
+                    <p>You may review and update your personal information by contacting us. You may also opt out of receiving promotional communications from us.</p>
+                    <h3>6. Changes to This Policy</h3>
+                    <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page.</p>
+                    <p class="text-sm mt-4">Last updated: August 25, 2025</p>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

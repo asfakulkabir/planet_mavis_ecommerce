@@ -12,6 +12,9 @@ from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 
 from .models import *
+from unfold.admin import ModelAdmin
+from unfold.paginator import InfinitePaginator
+
 
 from django.contrib.auth import get_user_model
 User = get_user_model() 
@@ -261,7 +264,9 @@ class ProductResource(resources.ModelResource):
 
 
 @admin.register(Product)
-class ProductAdmin(ImportExportModelAdmin):
+class ProductAdmin(ModelAdmin, ImportExportModelAdmin):
+    paginator = InfinitePaginator
+    show_full_result_count = False
     resource_class = ProductResource
     inlines = [ProductImageInline, ProductVariationInline]
     list_display = (
@@ -321,7 +326,9 @@ class ProductAdmin(ImportExportModelAdmin):
 
 
 @admin.register(ProductVariation)
-class ProductVariationAdmin(ImportExportModelAdmin):
+class ProductVariationAdmin(ModelAdmin, ImportExportModelAdmin):
+    paginator = InfinitePaginator
+    show_full_result_count = False
     resource_class = ProductVariationResource
     list_display = ('product_display', 'size_display', 'color_display', 'weight_display', 'price_display', 'stock_display')
     list_filter = ('product__product_type', 'product')
@@ -353,7 +360,9 @@ class ProductVariationAdmin(ImportExportModelAdmin):
 
 
 @admin.register(ProductImage)
-class ProductImageAdmin(ImportExportModelAdmin):
+class ProductImageAdmin(ModelAdmin, ImportExportModelAdmin):
+    paginator = InfinitePaginator
+    show_full_result_count = False
     resource_class = ProductImageResource
     list_display = ('product_display', 'name_display', 'image_thumbnail', 'is_featured', 'order')
     list_filter = ('product__name', 'is_featured')
@@ -376,7 +385,9 @@ class ProductImageAdmin(ImportExportModelAdmin):
 
 
 @admin.register(Category)
-class CategoryAdmin(ImportExportModelAdmin):
+class CategoryAdmin(ModelAdmin, ImportExportModelAdmin):
+    paginator = InfinitePaginator
+    show_full_result_count = False
     resource_class = CategoryResource
     list_display = ('name_display', 'parent_display', 'slug_display', 'group_name_display', 'image_thumbnail', 'view_on_site_link')
     list_filter = ('parent', 'group_name',)

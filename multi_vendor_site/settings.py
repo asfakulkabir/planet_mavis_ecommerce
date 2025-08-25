@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'unfold.contrib.filters', # Optional, for special filters
     'unfold.contrib.forms',   # Optional, for special form elements
     'unfold.contrib.inlines', # Optional, for special inlines
+    'unfold.contrib.import_export',  
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -169,3 +170,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.m2b.com.my'        # SMTP host from your hosting
+EMAIL_PORT = 465                       # SSL port for cPanel mail
+EMAIL_USE_SSL = True                   # Use SSL
+EMAIL_USE_TLS = False                  # TLS disabled when using SSL
+EMAIL_HOST_USER = 'info@m2b.com.my'   # Your full email address
+EMAIL_HOST_PASSWORD = 'm2b@beginnershut'  # Your email password
+DEFAULT_FROM_EMAIL = 'info@m2b.com.my'

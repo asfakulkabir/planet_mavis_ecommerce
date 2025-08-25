@@ -6,6 +6,8 @@ from django.utils.html import format_html
 from django import forms
 from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
+from unfold.admin import ModelAdmin
+from unfold.paginator import InfinitePaginator
 from import_export.widgets import JSONWidget
 from django.urls import reverse
 
@@ -67,7 +69,9 @@ class EcommercecheckoutsForm(forms.ModelForm):
         return items_json
 
 @admin.register(Ecommercecheckouts)
-class EcommercecheckoutsAdmin(ImportExportModelAdmin):
+class EcommercecheckoutsAdmin(ModelAdmin, ImportExportModelAdmin):
+    paginator = InfinitePaginator
+    show_full_result_count = False
     resource_class = EcommercecheckoutsResource
     form = EcommercecheckoutsForm
 
