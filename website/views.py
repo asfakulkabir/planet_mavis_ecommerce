@@ -16,6 +16,9 @@ from orders.models import *
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from urllib.parse import unquote
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 def home(request):
     testimonials_desktop = Testimonial.objects.filter(is_active=True, for_mobile=False)
@@ -174,7 +177,8 @@ def category_detail(request, full_slug=None):
 
 
 def product_detail(request, slug):
-    product = get_object_or_404(Product, slug=slug)
+    decoded_slug = unquote(slug)
+    product = get_object_or_404(Product, slug=decoded_slug)
 
     # Fetch all variations for the product
     variations_queryset = product.variations.all()
@@ -418,8 +422,7 @@ def wishlist_products_api(request):
 
 
 
-
-def checkout_ecommerce(request):        
+def checkout_ecommerce(request):
     if request.method == 'POST':
         try:
             # Get cart items from the POST request
@@ -465,12 +468,51 @@ def checkout_ecommerce(request):
                 total_amount=grand_total,
                 status='processing'
             )
+            
+            # Calculate product total before delivery charge
+            product_total = grand_total - delivery_charge.charge
+
+            # Send email to the specified addresses
+            subject = f"New Order: Order id: {order.id} : Total amount: {grand_total}"
+            
+            # Create a dictionary of order details for the email body
+            order_details = {
+                'items_json': json.dumps(cart_items),
+                'payment_method': request.POST.get('payment_method', ''),
+                'customer_name': request.POST.get('customer_name', ''),
+                'customer_phone': request.POST.get('customer_phone_number', ''),
+                'customer_address': request.POST.get('customer_address', ''),
+                'bkash_trx_id': request.POST.get('bkash_trx_id', ''),
+                'delivery_charge': delivery_charge.charge,
+                'total_amount': grand_total,
+                'product_total': product_total,
+            }
+
+            # Render the email body from a template (recommended for complex emails)
+            html_message = render_to_string('website/new_order_email.html', {
+                'order': order,
+                'order_details': order_details,
+                'cart_items': cart_items,
+            })
+            plain_message = strip_tags(html_message)
+
+            from_email = "sales@planetmavis.com"
+            to_emails = ["rbnayan056@gmail.com", "tutulmy@gmail.com", "emabhuiyan336@gmail.com", "mdhatemtai@gmail.com", "asfakulthoha@gmail.com"]
+
+            send_mail(
+                subject,
+                plain_message,
+                from_email,
+                to_emails,
+                html_message=html_message,
+                fail_silently=False,
+            )
 
             # Clear the cart after successful order placement
             if 'cart' in request.session:
                 del request.session['cart']
 
-            return redirect('/order_success/?orderid='+str(order.id))  # Redirect to a success page
+            return redirect('/order_success/?orderid=' + str(order.id))  # Redirect to a success page
 
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
@@ -479,7 +521,6 @@ def checkout_ecommerce(request):
 
     # Get all delivery zones for the form
     delivery_zones = DeliveryCharge.objects.all()
-
     return render(request, 'website/checkout_ecommerce.html', {'delivery_zones': delivery_zones})
 
 

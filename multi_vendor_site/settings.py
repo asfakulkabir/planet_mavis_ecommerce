@@ -173,10 +173,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.m2b.com.my'        # SMTP host from your hosting
+EMAIL_HOST = 'mail.planetmavis.com'        # SMTP host from your hosting
 EMAIL_PORT = 465                       # SSL port for cPanel mail
 EMAIL_USE_SSL = True                   # Use SSL
 EMAIL_USE_TLS = False                  # TLS disabled when using SSL
-EMAIL_HOST_USER = 'info@m2b.com.my'   # Your full email address
-EMAIL_HOST_PASSWORD = 'm2b@beginnershut'  # Your email password
-DEFAULT_FROM_EMAIL = 'info@m2b.com.my'
+EMAIL_HOST_USER = 'sales@planetmavis.com'   # Your full email address
+EMAIL_HOST_PASSWORD = 'mavis@beginnershut'  # Your email password
+DEFAULT_FROM_EMAIL = 'sales@planetmavis.com'

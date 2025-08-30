@@ -18,9 +18,10 @@
     <div class="flex flex-row justify-center items-center gap-3 lg:gap-6 2xl:gap-12">
       {% for category in categories %}
       <a href="{% url 'website:category_detail' full_slug=category.get_full_slug %}"
-        class="block text-center">
+        class="block text-center" x-data="{ loaded: false }" >
         {% if category.image %}
-        <img src="{{ category.image.url }}" alt="{{ category.name }}" class="w-20 h-20 object-cover rounded-lg mb-2">
+        <img src="{{ category.image.url }}" alt="{{ category.name }}" class="w-20 h-20 object-cover rounded-lg mb-2" loading="lazy" @load="loaded = true" x-bind:class="{ 'opacity-0': !loaded, 'opacity-100': loaded }">
+          <div x-show="!loaded" class="absolute inset-0 bg-gray-200 animate-pulse rounded-lg"></div>
         {% else %}
         <img src="/static/icons/default-image.webp" alt="Default category" class="w-20 h-20 object-cover rounded-lg mb-2">
         {% endif %}

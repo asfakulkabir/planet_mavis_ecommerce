@@ -27,19 +27,26 @@ class Category(models.Model):
     
 
     def save(self, *args, **kwargs):
-        if self.name == '':
+        if not self.name:
             self.name = None
-        if self.slug == '':
-            self.slug = None
-
-        if self.name and not self.slug:
-            base_slug = slugify(self.name)
-            temp_slug = base_slug
-            counter = 1
-            while Category.objects.filter(slug=temp_slug).exclude(pk=self.pk).exists():
-                temp_slug = f"{base_slug}-{counter}"
-                counter += 1
-            self.slug = temp_slug
+        if not self.slug: # Initial slug generation if not provided
+            self.slug = slugify(self.name, allow_unicode=True)
+            
+        # Check if the name has changed to trigger slug update
+        if self.pk:  # Check if the instance already exists in the database
+            try:
+                original_instance = Category.objects.get(pk=self.pk)
+                if original_instance.name != self.name:
+                    self.slug = slugify(self.name, allow_unicode=True)
+            except Category.DoesNotExist:
+                pass  # Do nothing if the instance doesn't exist yet
+        
+        # Ensure slug uniqueness
+        base_slug = self.slug
+        counter = 1
+        while Category.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+            self.slug = f"{base_slug}-{counter}"
+            counter += 1
 
         super().save(*args, **kwargs)
 
@@ -59,7 +66,6 @@ class Category(models.Model):
         ordering = ['group_name', 'name']
 
 
-
 class Product(models.Model):
     SIMPLE = 'simple'
     VARIABLE = 'variable'
@@ -74,7 +80,7 @@ class Product(models.Model):
     short_description = RichTextField(blank=True, null=True) 
     description = RichTextField(blank=True, null=True) 
     product_type = models.CharField(max_length=20, choices=PRODUCT_TYPE_CHOICES, default=SIMPLE, blank=True, null=True) 
-    categories = models.ManyToManyField(Category, blank=True, related_name='products') 
+    categories = models.ManyToManyField('Category', blank=True, related_name='products') 
     
     regular_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)], blank=True, null=True) 
     sale_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, validators=[MinValueValidator(0.0)])
@@ -94,18 +100,27 @@ class Product(models.Model):
         ordering = ['-created_at']
 
     def save(self, *args, **kwargs):
-        if self.slug == '':
-            self.slug = None
+        if not self.name:
+            self.name = None
+        if not self.slug: # Initial slug generation if not provided
+            self.slug = slugify(self.name, allow_unicode=True)
 
-        if self.name and not self.slug: 
-            base_slug = slugify(self.name, allow_unicode=True)
-            slug = base_slug
-            counter = 1
-            while Product.objects.filter(slug=slug).exclude(pk=self.pk).exists():
-                slug = f"{base_slug}-{counter}"
-                counter += 1
-            self.slug = slug
-            
+        # Check if the name has changed to trigger slug update
+        if self.pk: # Check if the instance already exists
+            try:
+                original_instance = Product.objects.get(pk=self.pk)
+                if original_instance.name != self.name:
+                    self.slug = slugify(self.name, allow_unicode=True)
+            except Product.DoesNotExist:
+                pass # Do nothing if the instance doesn't exist yet
+        
+        # Ensure slug uniqueness
+        base_slug = self.slug
+        counter = 1
+        while Product.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+            self.slug = f"{base_slug}-{counter}"
+            counter += 1
+
         if self.regular_price is not None and self.regular_price < 0:
             self.regular_price = 0
         if self.sale_price is not None and self.sale_price < 0:
@@ -122,7 +137,6 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name or f"Product (ID: {self.id})"
-
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, related_name='images', blank=True, null=True)

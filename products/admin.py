@@ -14,13 +14,13 @@ from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import *
 from unfold.admin import ModelAdmin
 from unfold.paginator import InfinitePaginator
-
+from unfold.admin import TabularInline
 
 from django.contrib.auth import get_user_model
 User = get_user_model() 
 
 
-class ProductImageInline(admin.TabularInline):
+class ProductImageInline(TabularInline):
     model = ProductImage
     extra = 1
     fields = ('image_thumbnail', 'name', 'alt_text', 'is_featured', 'order', 'image')
@@ -33,7 +33,7 @@ class ProductImageInline(admin.TabularInline):
     image_thumbnail.short_description = "Thumbnail"
 
 
-class ProductVariationInline(admin.TabularInline): 
+class ProductVariationInline(TabularInline): 
     model = ProductVariation
     extra = 1
     fields = ('size', 'weight', 'color', 'price', 'stock')
@@ -424,7 +424,7 @@ class CategoryAdmin(ModelAdmin, ImportExportModelAdmin):
     view_on_site_link.short_description = "Frontend URL"
 
 @admin.register(DeliveryCharge)
-class DeliveryChargeAdmin(admin.ModelAdmin):
+class DeliveryChargeAdmin(ModelAdmin):
     list_display = ('zone', 'charge')
     search_fields = ('zone',)
     list_filter = ('zone',)

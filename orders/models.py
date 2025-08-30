@@ -9,7 +9,7 @@ class Ecommercecheckouts(models.Model):
     customer_phone = models.CharField(max_length=15)
     customer_address = models.TextField()
     delivery_charge = models.ForeignKey(DeliveryCharge, on_delete=models.CASCADE, related_name='ecommercecheckouts')
-    bkash_trx_id = models.CharField(max_length=255, blank=True, null=True, unique=True)
+    bkash_trx_id = models.CharField(max_length=255, blank=True, null=True)
     total_amount = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=255, choices=[
